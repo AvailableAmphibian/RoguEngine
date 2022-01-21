@@ -1,3 +1,3 @@
 
-rootProject.name = "roguetest"
+rootProject.name = "RoguEngine"
 
