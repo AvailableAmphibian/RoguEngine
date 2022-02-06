@@ -1,6 +1,6 @@
 package map.tiles
 
-class Wall: Tile(null) {
+class Wall: Tile() {
     override val noEntityChar get() = "#"
     override val noEntityEmoji get() = "⬛"
 

@@ -2,13 +2,14 @@ package map.tiles
 
 import entities.Entity
 
-open class Tile(var entity:Entity<*>?) {
+open class Tile {
     companion object {
         const val MIN_WEIGHT = 1.0
         const val NO_WEIGHT = -1.0
         const val SMALL_WEIGHT = 1.5
     }
 
+    var entity: Entity<*>? = null
 
     var discovered = true
     protected open val noEntityChar get() = "."
