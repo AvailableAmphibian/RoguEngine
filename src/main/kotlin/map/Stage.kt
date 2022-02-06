@@ -1,12 +1,8 @@
 package map
 
 import entities.Entity
-import entities.Player
-import map.tiles.Tile
-import map.tiles.Wall
 import util.factories.RoomFactory
-import util.helper.TileMatrix
-import kotlin.random.Random
+import util.graph.TileMatrix
 
 class Stage(/*val rooms: List<Room>, val roomLinks:Map<Int, List<Int>>*/) {
     val map = TileMatrix(32, 62)
