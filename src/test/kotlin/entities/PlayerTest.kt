@@ -1,10 +1,11 @@
 package entities
 
+import io.mockk.spyk
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 class PlayerTest: EntityTest() {
-    override fun createEntity(): Entity<*> = Player(Pair(10,10))
+    override fun createEntity(): Entity<*> = spyk(Player(Pair(10, 10)))
 
     override fun moveEntity() {
         val pos = Pair(9, 11)
@@ -17,8 +18,4 @@ class PlayerTest: EntityTest() {
         assertEquals(entity, matrix[9][11].entity, "Entity is at the new position")
         assertNull(matrix[10][10].entity, "Entity has successfully moved")
     }
-
-
-
-
 }

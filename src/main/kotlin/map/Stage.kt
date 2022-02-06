@@ -1,43 +1,29 @@
 package map
 
-import util.TileMatrix
+import entities.Entity
 import entities.Player
-import entities.monsters.Spider
-import map.tiles.Stairs
+import map.tiles.Tile
+import map.tiles.Wall
+import util.factories.RoomFactory
+import util.helper.TileMatrix
+import kotlin.random.Random
 
 class Stage(/*val rooms: List<Room>, val roomLinks:Map<Int, List<Int>>*/) {
-    val map = TileMatrix(7, 7)
-    lateinit var player:Player
+    val map = TileMatrix(32, 62)
+    private val entities = ArrayList<Entity<*>>()
+    private val roomFactory = RoomFactory(map.length, map.width)
 
-    fun spawnPlayer() {
-        player = Player(Pair(4,4))
-        map[4][4].entity = player
-        for (line in map)
-            for (tile in line)
-                tile.discovered = true
-//        for(i in 2..5){
-//            for(j in 2 .. 5) {
-//                map[i][j].discovered = true
-//            }
-//        }
-    }
-
-    fun movePlayer() {
-        val (xOld, yOld) = player.position
-        val (xMove, yMove) = player.move(map)
-        val x = xOld + xMove
-        val y = yOld + yMove
-
-        if (map.outOfMap(x, y))
-            return
-
-        if (map[x][y].isFree()) {
-            map[x][y].entity = player
-            map[xOld][yOld].entity = null
+    fun initMap() {
+        val rooms = roomFactory.createMultipleRooms(5)
+        rooms.forEach { map.applyRoom(it) }
+        for (i in 0 until 4){
+            map.createCorridor(rooms[i], rooms[i + 1])
         }
     }
 
-    fun createStairs(i:Int, j:Int) {
-        map[i][j] = Stairs()
+    fun playTurn(){
+        entities.forEach {
+            it.takeTurn(map)
+        }
     }
 }

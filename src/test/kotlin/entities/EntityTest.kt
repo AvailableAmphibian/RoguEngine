@@ -1,6 +1,7 @@
 package entities
 
 import entities.monsters.Spider
+import io.mockk.impl.annotations.MockK
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -10,6 +11,7 @@ import util.helper.TileMatrix
 
 
 abstract class EntityTest {
+    @MockK
     lateinit var entity:Entity<*>
     val matrix = TileMatrix(25,25)
     abstract fun createEntity(): Entity<*>
@@ -18,7 +20,6 @@ abstract class EntityTest {
     fun initEntity() {
         entity = createEntity()
     }
-
 
     @Test
     abstract fun moveEntity()
