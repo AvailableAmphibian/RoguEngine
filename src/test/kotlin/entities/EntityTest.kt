@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import util.exception.CantMoveOnAnotherEntityException
 import util.exception.CantMoveToTheSamePositionException
-import util.graph.TileMatrix
+import util.graph.tiles.TileMatrix
 
 
 abstract class EntityTest {

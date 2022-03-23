@@ -2,8 +2,8 @@ package util.factories
 
 import map.Room
 import map.Stage
-import util.graph.architest.algo.CorridorGenerator
-import util.graph.architest.tiles.TM
+import util.graph.algo.CorridorGenerator
+import util.graph.tiles.TileMatrix
 
 /**
  * Builder class used to create new stages.
@@ -30,11 +30,11 @@ class StageBuilder {
         return this
     }
 
-    private fun createTileMatrix(rooms:List<Room>): TM {
-        val tm = TM(length = length, width = width)
-        tm.initMap()
-        rooms.forEach { tm.applyRoomToMap(it) }
-        return tm
+    private fun createTileMatrix(rooms:List<Room>): TileMatrix {
+        val tileMatrix = TileMatrix(length = length, width = width)
+        tileMatrix.initMap(Pair(0,0)) // todo : fix end
+        rooms.forEach { tileMatrix.applyRoomToMap(it) }
+        return tileMatrix
     }
 
     private fun createRooms(): List<Room> {
@@ -42,7 +42,7 @@ class StageBuilder {
         return factory.createMultipleRooms(roomQuantity)
     }
 
-    private fun createCorridors(rooms:List<Room>, tileMatrix: TM) {
+    private fun createCorridors(rooms:List<Room>, tileMatrix: TileMatrix) {
         val corridorGenerator = CorridorGenerator().apply {
             this.tileMatrix = tileMatrix
             this.rooms = rooms
