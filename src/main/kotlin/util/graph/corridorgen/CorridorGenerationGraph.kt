@@ -6,7 +6,10 @@ import util.graph.SearchGraph
 import util.graph.tiles.TileMatrix
 import util.graph.tiles.Wall
 
-class CorridorGenerationGraph : SearchGraph<CorridorGenerationNode>() {
+/**
+ * Graph used to create the corridors with A*.
+ */
+class CorridorGenerationGraph(length:Int = 20, width:Int = 20): SearchGraph<CorridorGenerationNode>(length, width) {
     lateinit var gameMap: TileMatrix
     lateinit var rooms: List<Room>
     override fun createDefaultMatrix(): Array<Array<CorridorGenerationNode>> {
@@ -17,20 +20,6 @@ class CorridorGenerationGraph : SearchGraph<CorridorGenerationNode>() {
         initWalls()
         adaptToMatrix()
         adaptRooms()
-    }
-
-    override fun updateMap(listPos: List<Pair<Int, Int>>) {
-        gameMap.updateMap(listPos)
-        listPos.forEach {
-            this[it.first][it.second] = CorridorGenerationNode(true).apply {
-                this.xy = it
-                if (tileType != NodeType.ROOM_TILE) {
-                    this.tileType = NodeType.CORRIDOR_TILE
-                    this.addSomeWeight()
-                }
-            }
-        }
-        TODO("Not yet implemented")
     }
 
     private fun initWalls() {

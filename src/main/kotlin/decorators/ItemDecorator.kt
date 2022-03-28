@@ -1,4 +1,3 @@
 package decorators
 
-interface ItemDecorator : BaseDecorator {
-}
+interface ItemDecorator : BaseDecorator

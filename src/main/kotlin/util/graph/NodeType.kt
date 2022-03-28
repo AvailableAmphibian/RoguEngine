@@ -7,6 +7,4 @@ enum class NodeType {
     ROOM_ENTRANCE_TILE, // Need some verification
     CORRIDOR_TILE, // Need some verification
     EMPTY_TILE //
-
-
 }

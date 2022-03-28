@@ -26,7 +26,7 @@ class RoomFactory(val matrixLength:Int, val matrixWidth: Int) {
         return rooms
     }
 
-    fun createRoom():Room {
+    private fun createRoom():Room {
         val (x1,x2) = createPairOfPoints(matrixLength)
         val (y1,y2) = createPairOfPoints(matrixWidth)
         val xInside = x2 - x1 - 2

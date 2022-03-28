@@ -7,10 +7,20 @@ abstract class SearchGraph<T: SearchNode>(
     protected val matrix: Array<Array<T>> by lazy { createDefaultMatrix() }
 
     protected abstract fun initMap()
-    abstract fun createDefaultMatrix():Array<Array<T>>
-    abstract fun updateMap(listPos: List<Pair<Int, Int>>)
 
+    /**
+     * Must be used to define a generic matrix (need for A*).
+     */
+    abstract fun createDefaultMatrix():Array<Array<T>>
+
+    /**
+     * Return a row of the matrix.
+     */
     operator fun get(x:Int):Array<T> = matrix[x]
+
+    /**
+     * Return a tile of the matrix.
+     */
     operator fun get(xy: Pair<Int, Int>):T = matrix[xy.first][xy.second]
     operator fun iterator() = matrix.iterator()
 
@@ -19,6 +29,9 @@ abstract class SearchGraph<T: SearchNode>(
         setEndOnEachCell(end)
     }
 
+    /**
+     * Return every node connected to a given node.
+     */
     fun getCellsAround(xy: Pair<Int, Int>): List<T> {
         val cells = mutableListOf<T>()
         val (x,y) = xy
@@ -36,6 +49,9 @@ abstract class SearchGraph<T: SearchNode>(
 
     protected fun setEndOnEachCell(xy: Pair<Int, Int>) = iterator().forEach { line -> line.forEach { it.end = xy } }
 
+    /**
+     * Apply a given path to the current graph.
+     */
     abstract fun applyPath(shortestPath: List<Pair<Int, Int>>)
 
 }

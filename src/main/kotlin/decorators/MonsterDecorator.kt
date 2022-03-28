@@ -1,0 +1,3 @@
+package decorators
+
+interface MonsterDecorator:BaseDecorator
