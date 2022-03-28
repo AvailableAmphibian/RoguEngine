@@ -1,4 +1,3 @@
 package decorators
 
-interface BaseDecorator {
-}
+interface BaseDecorator

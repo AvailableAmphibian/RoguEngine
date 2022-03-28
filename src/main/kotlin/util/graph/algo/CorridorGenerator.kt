@@ -9,7 +9,7 @@ class CorridorGenerator: AStarSearch<CorridorGenerationNode, CorridorGenerationG
     lateinit var tileMatrix: TileMatrix
     lateinit var rooms: List<Room>
 
-    override fun initGraph() = CorridorGenerationGraph().apply {
+    override fun initGraph() = CorridorGenerationGraph(tileMatrix.length, tileMatrix.width).apply {
         gameMap = tileMatrix
         rooms = this@CorridorGenerator.rooms
     }

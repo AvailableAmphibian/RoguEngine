@@ -2,13 +2,19 @@ package util.graph.algo
 
 import util.graph.SearchGraph
 import util.graph.SearchNode
+import util.graph.tiles.TileMatrix
+import util.helper.NodesGetter
 
+/**
+ * Generic A* algorithm.
+ */
 abstract class AStarSearch<TNode: SearchNode, TGraph: SearchGraph<TNode>> {
     val visited = mutableMapOf<Pair<Int,Int>, Pair<Int, Int>>()
     val inQueue = mutableListOf<TNode>()
-    lateinit var source: Pair<Int, Int>
-    lateinit var end: Pair<Int, Int>
+    open lateinit var source: Pair<Int, Int>
+    open lateinit var end: Pair<Int, Int>
     val map: TGraph by lazy { initGraph() }
+    open val nodesGetter:NodesGetter<TNode> =  { xy, map -> map.getCellsAround(xy) }
 
     companion object {
         val previousForSource = Pair(-1,-1)
@@ -22,7 +28,9 @@ abstract class AStarSearch<TNode: SearchNode, TGraph: SearchGraph<TNode>> {
             this.gCost = 0
         }
 
-
+    /**
+     * Runs A* between two points.
+     */
     fun compute() {
         this.inQueue.clear()
         this.visited.clear()
@@ -35,6 +43,11 @@ abstract class AStarSearch<TNode: SearchNode, TGraph: SearchGraph<TNode>> {
 
     private fun getNext() = inQueue.stream().min{ aNode, anotherNode -> aNode.compareTo(anotherNode) }.get()
 
+    /**
+     * Computes one iteration of A*.
+     *
+     * @return true if we found the finishing node, otherwise false.
+     */
     fun computeIteration():Boolean {
         val current = getNext()
         inQueue.remove(current)
@@ -44,9 +57,9 @@ abstract class AStarSearch<TNode: SearchNode, TGraph: SearchGraph<TNode>> {
         if (current.xy == end)
             return true
 
-        val around = map.getCellsAround(current.xy)
+        val around = nodesGetter.invoke(current.xy, map)
         around.forEach {
-            if (visited[it.xy] == null && map[current.xy].authorized) {
+            if (visited[it.xy] == null && map[it.xy].authorized) {
                 val currentGCost = current.gCost + 1
                 if (!inQueue.contains(it) || it.gCost < currentGCost) {
                     it.gCost = currentGCost
@@ -58,7 +71,10 @@ abstract class AStarSearch<TNode: SearchNode, TGraph: SearchGraph<TNode>> {
         return false
     }
 
-    fun getShortestPath(): List<Pair<Int, Int>> {
+    /**
+     * Returns the shortest path between two points.
+     */
+    open fun getShortestPath(): List<Pair<Int, Int>> {
         val path = mutableListOf(end)
         var pos = visited[end]
         val last = previousForSource

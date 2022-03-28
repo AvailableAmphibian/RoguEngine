@@ -1,20 +1,20 @@
 package main
 
-import map.Stage
-import util.displayer.BaseDisplayer
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.application
+import androidx.compose.ui.window.rememberWindowState
+import ui.App
+import ui.Log
+import ui.keyEvent
 
-fun main() {
-//    val game = Game()
-
-    val stage = Stage()
-    stage.initMap()
-//    stage.createPlayers()
-    val displayer = BaseDisplayer()
-    displayer.showMap(stage.map)
-
-//    for (i in 0 .. 5) {
-//        Thread.sleep(2000)
-//        stage.playTurn()
-//        displayer.showMap(stage.map)
-//    }
+fun main() = application {
+    Window(
+        onCloseRequest = ::exitApplication,
+        title = "Rogue",
+        state = rememberWindowState(),
+        onKeyEvent = ::keyEvent
+    ) {
+        App()
+    }
 }
